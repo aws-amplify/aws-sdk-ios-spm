@@ -1,10 +1,19 @@
 // swift-tools-version:5.3
 import PackageDescription
 
+// Current stable version of the AWS iOS SDK
+// 
+// This value will be updated by the CI/CD pipeline and should not be
+// updated manually
 let latestVersion = "2.22.0"
 
+// Domain where the release artifacts are hosted.
 let hostingDomain = "<TBD>"
 
+// Map between the available frameworks and the checksum
+//
+// The checksum value will be updated by the CI/CD pipeline and should 
+// not be updated manually
 let frameworksToChecksum = [
     "AWSAPIGateway": "",
     "AWSAppleSignIn": "",
