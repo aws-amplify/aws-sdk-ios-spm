@@ -1,6 +1,6 @@
 # Swift Package Manager support for AWS SDK for iOS
 
-The Swift Package Manager support for AWS iOS SDK provides the required Swift Manifest file that link to binary targets for the SDKs.
+This repository enables Swift Package Manager support for the AWS Mobile SDK for iOS by vending a Manifest file (`Package.swift`) that links to binary targets for the SDKs.
 
 ## Setup
 
