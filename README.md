@@ -24,4 +24,4 @@ To use the AWS SDK for iOS, you will need the following installed on your develo
 
     **NOTE:** The AWS Mobile SDK for iOS [does not follow Semantic Versioning](https://docs.amplify.aws/sdk/configuration/setup-options/q/platform/ios#aws-sdk-version-vs-semantic-versioning).
 
-5. Choose the packages that is required for the project and click `Finish`
+5. Choose the packages required for your project and click **Finish**
