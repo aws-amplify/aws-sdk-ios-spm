@@ -16,7 +16,7 @@ To use the AWS SDK for iOS, you will need the following installed on your develo
 
 1. Open your project in Xcode 11.0 or above
 
-2. Go to File -> Swift Packages -> Add Package Dependency...
+2. Go to **File** > **Swift Packages** > **Add Package Dependency...**
 
 3. In the field **Enter package repository URL**, enter "https://github.com/aws-amplify/aws-sdk-ios-spm"
 
