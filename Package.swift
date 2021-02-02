@@ -5,7 +5,7 @@ import PackageDescription
 // 
 // This value will be updated by the CI/CD pipeline and should not be
 // updated manually
-let latestVersion = "2.22.0"
+let latestVersion = "2.22.1"
 
 // Domain where the release artifacts are hosted.
 let hostingDomain = "<TBD>"
