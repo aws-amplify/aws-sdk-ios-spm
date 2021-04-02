@@ -59,7 +59,7 @@ jobs:
           name: Extract version
           command: |
             release_version=$(cat Package.swift | grep -o -E '([0-9]+)\.([0-9]+)\.([0-9]+)')
-            echo $release_version
+            echo "export release_version=$release_version" >> $BASH_ENV
       - run:
           name: Merge release branch to main branch
           command: |
