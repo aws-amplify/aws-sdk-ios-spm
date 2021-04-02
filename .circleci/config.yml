@@ -79,7 +79,7 @@ jobs:
           command: |
             echo $release_version
             git tag ${release_version}
-            git push -q https://${GITHUB_SPM_TOKEN}@github.com/aws-amplify/aws-sdk-ios-spm.git --tags 
+            git push --tags -q https://${GITHUB_SPM_TOKEN}@github.com/aws-amplify/aws-sdk-ios-spm.git 
             
 workflows:
 
