@@ -73,7 +73,7 @@ jobs:
             echo "checkout main"
             git merge testcci
             echo "merge"
-            git push origin testMain https://${GITHUB_SPM_TOKEN}@github.com/aws-amplify/aws-sdk-ios-spm.git
+            git push https://${GITHUB_SPM_TOKEN}@github.com/aws-amplify/aws-sdk-ios-spm.git
       - run:
           name: Update tag
           command: |
