@@ -43,13 +43,18 @@ jobs:
   release:
     <<: *defaults
     steps:
+      - *restore_repo
+      - run:
+          name: Listing
+          command: |
+            ls
+            ls ~/aws-sdk-ios-spm/*
       - run:
           name: Prepare git
           command: |
             git config --local user.name "${GITHUB_SPM_RELEASE_USER}"
             git fetch
             git remote -v
-            git fetch upstream
       - run:
           name: Extract version
           command: |
@@ -58,17 +63,23 @@ jobs:
       - run:
           name: Merge release branch to main branch
           command: |
-            git fetch
-            git rebase main
-            git checkout main
-            git merge release
-            git push https://${GITHUB_SPM_TOKEN}@github.com/aws-amplify/aws-sdk-ios-spm.git
+            git fetch origin testMain
+            echo "fetched"
+            git checkout testcci
+            echo "checkout"
+            git rebase origin/testMain
+            echo "rebase"
+            git checkout testMain
+            echo "checkout main"
+            git merge testcci
+            echo "merge"
+            git push origin testMain https://${GITHUB_SPM_TOKEN}@github.com/aws-amplify/aws-sdk-ios-spm.git
       - run:
           name: Update tag
           command: |
             echo $release_version
             git tag ${release_version}
-            git push https://${GITHUB_SPM_TOKEN}@github.com/aws-amplify/aws-sdk-ios-spm.git --tags 
+            git push -q https://${GITHUB_SPM_TOKEN}@github.com/aws-amplify/aws-sdk-ios-spm.git --tags 
             
 workflows:
 
@@ -78,13 +89,13 @@ workflows:
           filters:
             branches:
               only: 
-                - royjit.circleci
+                - testcci
       - release:
           requires:
               - checkout_code
           filters:
             branches:
               only: 
-                - royjit.circleci
+                - testcci
           
 
