@@ -1,0 +1,80 @@
+# .circleci/config.yml
+
+version: 2.1
+
+defaults: &defaults
+  macos:
+    xcode: '12.0.0'
+  working_directory: ~/aws-sdk-ios-spm
+
+references:
+  repo_cache_key: &repo_cache_key v2-repo-{{ .Branch }}-{{ .Revision }}
+
+  restore_repo: &restore_repo
+    restore_cache:
+      keys:
+        - *repo_cache_key
+        - v2-repo-{{ .Branch }}
+        - v2-repo
+
+commands:
+jobs:
+  checkout_code:
+    <<: *defaults
+    steps:
+      - *restore_repo
+      - checkout
+      - save_cache:
+          key: *repo_cache_key
+          paths:
+            - ~/aws-sdk-ios-spm
+
+  release:
+    <<: *defaults
+    steps:
+      - *restore_repo
+      - run:
+          name: Prepare git
+          command: |
+            git config --local user.name "${GITHUB_SPM_RELEASE_USER}"
+            git fetch
+      - run:
+          name: Extract version
+          command: |
+            release_version=$(cat Package.swift | grep -o -E '([0-9]+)\.([0-9]+)\.([0-9]+)')
+            echo "export release_version=$release_version" >> $BASH_ENV
+      - run:
+          name: Merge release branch to main branch
+          command: |
+            git fetch origin main
+            git checkout release
+            git rebase origin/main
+            git checkout main
+            git merge release
+            echo "Merged to main"
+            git push https://${GITHUB_SPM_TOKEN}@github.com/aws-amplify/aws-sdk-ios-spm.git
+      - run:
+          name: Update tag
+          command: |
+            echo $release_version
+            git tag ${release_version}
+            git push --tags -q https://${GITHUB_SPM_TOKEN}@github.com/aws-amplify/aws-sdk-ios-spm.git 
+            
+workflows:
+
+  release_sdk:
+    jobs:
+      - checkout_code:
+          filters:
+            branches:
+              only: 
+                - release
+      - release:
+          requires:
+              - checkout_code
+          filters:
+            branches:
+              only: 
+                - release
+          
+
