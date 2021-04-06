@@ -5,7 +5,7 @@ import PackageDescription
 // 
 // This value will be updated by the CI/CD pipeline and should not be
 // updated manually
-let latestVersion = "2.22.1"
+let latestVersion = "1.99.5"
 
 // Domain where the release artifacts are hosted.
 let hostingDomain = "<TBD>"
@@ -44,7 +44,7 @@ let frameworksToChecksum = [
     "AWSLocation": "SHA256_CHECKSUM",
     "AWSLogs": "SHA256_CHECKSUM",
     "AWSMachineLearning": "SHA256_CHECKSUM",
-    "AWSMobileClientXCF": "SHA256_CHECKSUM",
+    "AWSMobileClientXCF": "f0b8245f1c778800a9cc84ace348a6a0a485f16dcfd0641c8c79b4fa25da1856",
     "AWSPinpoint": "SHA256_CHECKSUM",
     "AWSPolly": "SHA256_CHECKSUM",
     "AWSRekognition": "SHA256_CHECKSUM",
