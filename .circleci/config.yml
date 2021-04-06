@@ -52,13 +52,13 @@ jobs:
             git checkout main
             git merge release
             echo "Merged to main"
-            git push https://${GITHUB_SPM_TOKEN}@github.com/aws-amplify/aws-sdk-ios-spm.git
+            git push https://${GITHUB_SPM_RELEASE_TOKEN}@github.com/aws-amplify/aws-sdk-ios-spm.git
       - run:
           name: Update tag
           command: |
             echo $release_version
             git tag ${release_version}
-            git push --tags -q https://${GITHUB_SPM_TOKEN}@github.com/aws-amplify/aws-sdk-ios-spm.git 
+            git push --tags -q https://${GITHUB_SPM_RELEASE_TOKEN}@github.com/aws-amplify/aws-sdk-ios-spm.git 
             
 workflows:
 
