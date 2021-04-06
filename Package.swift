@@ -5,7 +5,7 @@ import PackageDescription
 // 
 // This value will be updated by the CI/CD pipeline and should not be
 // updated manually
-let latestVersion = "2.22.1"
+let latestVersion = "2.23.2"
 
 // Hosting url where the release artifacts are hosted.
 let hostingUrl = "https://releases.amplify.aws/aws-sdk-ios/"
@@ -77,4 +77,3 @@ let package = Package(
     products: products,
     targets: targets
 )
-
