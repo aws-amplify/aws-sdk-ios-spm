@@ -8,7 +8,7 @@ import PackageDescription
 let latestVersion = "2.22.1"
 
 // Domain where the release artifacts are hosted.
-let hostingDomain = "<TBD>"
+let hostingDomain = "releases.amplify.aws"
 
 // Map between the available frameworks and the checksum
 //
@@ -65,7 +65,7 @@ var products = frameworksToChecksum.keys.map {Product.library(name: $0, targets:
 
 var targets = frameworksToChecksum.map { framework, checksum in
     Target.binaryTarget(name: framework,
-                        url: "\(hostingDomain)/\(framework)-\(latestVersion).zip",
+                        url: "https://\(hostingDomain)/aws-sdk-ios/\(framework)-\(latestVersion).zip",
                         checksum: checksum)
 }
 
