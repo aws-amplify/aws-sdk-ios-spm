@@ -41,7 +41,7 @@ let frameworksToChecksum = [
     "AWSKinesisVideoSignaling": "SHA256_CHECKSUM",
     "AWSLambda": "SHA256_CHECKSUM",
     "AWSLex": "SHA256_CHECKSUM",
-    "AWSLocation": "SHA256_CHECKSUM",
+    "AWSLocationXCF": "SHA256_CHECKSUM",
     "AWSLogs": "SHA256_CHECKSUM",
     "AWSMachineLearning": "SHA256_CHECKSUM",
     "AWSMobileClientXCF": "SHA256_CHECKSUM",
