@@ -20,6 +20,8 @@ let frameworksToChecksum = [
     "AWSAuthCore": "da49b1d4fe50e7c4da7521d51033ab1d5d120fc8ba1c0c8df6ad1ce0e6d47e89",
     "AWSAuthUI": "5969e95a6116f99cb6f61e4ec7b5f5082f12f85c1732d43bbb69eb681b82601a",
     "AWSAutoScaling": "eed8767e244d28f7221c318d29a67f0e55ef821a732f53f10d8976a6eaa13d68",
+    "AWSChimeSDKIdentity": "SHA256_CHECKSUM",
+    "AWSChimeSDKMessaging": "SHA256_CHECKSUM",
     "AWSCloudWatch": "866d28670e0bba0a3607a8bee66cffbc556e97f3d7938dd6c12e99db5f3677a6",
     "AWSCognitoAuth": "ba224d22a71668966391d322e7095677bd456a17e68e8de990500624fc1cd92d",
     "AWSCognitoIdentityProvider": "d1a74d776b5a20b6cdb7c37373b281c664fb7c1416456e09765263bb0522bb12",
