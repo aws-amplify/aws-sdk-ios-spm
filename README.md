@@ -27,11 +27,11 @@ To use the AWS SDK for iOS, you will need the following installed on your develo
 
 ## Local Development
 
-It you are using SPM to do development and are modifying the source in the AWS SDK iOS code base you will need to work with a locally built copy of the XCF files. Running `local.sh` will produce all of the XCF files and copy them to a directory in this repo so that `Package.swift` can be updated to reference them. Once the XCF files are in place change the value for `localPathEnabled` to `true` and the package will reference the local path. The Swift package can then be used locally with any changes made to the aws-sdk-ios code base.
+It you are using SPM to do development and are modifying the source in the AWS SDK iOS code base you will need to work with a locally built copy of the XCF files. Running `local.sh` will produce all of the XCF files and copy them to a directory in this repo so that `Package.swift` can be updated to reference them. Once the XCF files are in place change the value for `localPathEnabled` to `true` and the package will reference the local path. The Swift package can then be used locally with any changes made in the cloned copy of the aws-sdk-ios repo.
 
 ### Requirements
 
-In order to do local development the XCF directory must be populated with the files. These files can be generated from the aws-sdk-ios repo which is expected to be cloned alongside this repo. The Python script which is used to create the XCF files for deployment will be used to prepare these files which are then copied into a folder named XCF in this repo's directory. Then `Package.swift` can be changed to use the local path.
+In order to do local development the XCF directory must be populated with the XCF files. These files can be generated from the aws-sdk-ios repo which is expected to be cloned alongside this repo. The Python script which is used to create the XCF files for deployment will be used to prepare these files which are then copied into a folder named XCF in this repo's directory. Then `Package.swift` can be changed to use the local path.
 
 1. Clone aws-sdk-ios to the same directory as this repo
 2. Run `local.sh` to prepare the XCF files (this can take a while)
