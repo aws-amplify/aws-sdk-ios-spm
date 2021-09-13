@@ -10,7 +10,7 @@ let latestVersion = "2.25.0"
 // Hosting url where the release artifacts are hosted.
 let hostingUrl = "https://releases.amplify.aws/aws-sdk-ios/"
 let localPath = "XCF/"
-let localPathEnabled = true
+let localPathEnabled = false
 
 // Map between the available frameworks and the checksum
 //
