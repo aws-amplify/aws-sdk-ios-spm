@@ -9,6 +9,8 @@ let latestVersion = "2.25.0"
 
 // Hosting url where the release artifacts are hosted.
 let hostingUrl = "https://releases.amplify.aws/aws-sdk-ios/"
+let localPath = "XCF/"
+let localPathEnabled = false
 
 // Map between the available frameworks and the checksum
 //
@@ -65,10 +67,17 @@ let frameworksToChecksum = [
 
 var products = frameworksToChecksum.keys.map {Product.library(name: $0, targets: [$0])}
 
+func createTarget(framework: String, checksum: String) -> Target {
+    localPathEnabled ?
+        Target.binaryTarget(name: framework, 
+                            path: "\(localPath)/\(framework).xcframework") :
+        Target.binaryTarget(name: framework, 
+                            url: "\(hostingUrl)\(framework)-\(latestVersion).zip", 
+                            checksum: checksum)
+}
+
 var targets = frameworksToChecksum.map { framework, checksum in
-    Target.binaryTarget(name: framework,
-                        url: "\(hostingUrl)\(framework)-\(latestVersion).zip",
-                        checksum: checksum)
+    createTarget(framework: framework, checksum: checksum)
 }
 
 let package = Package(
