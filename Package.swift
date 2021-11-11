@@ -1,5 +1,7 @@
 // swift-tools-version:5.3
 import PackageDescription
+import class Foundation.FileManager
+import struct Foundation.URL
 
 // Current stable version of the AWS iOS SDK
 // 
@@ -9,8 +11,15 @@ let latestVersion = "2.26.7"
 
 // Hosting url where the release artifacts are hosted.
 let hostingUrl = "https://releases.amplify.aws/aws-sdk-ios/"
-let localPath = "XCF/"
-let localPathEnabled = false
+
+enum BuildMode {
+    case remote
+    case localWithDictionary
+    case localWithFilesystem
+}
+
+let localPath = "XCF"
+let buildMode = BuildMode.remote
 
 // Map between the available frameworks and the checksum
 //
@@ -65,10 +74,37 @@ let frameworksToChecksum = [
     "AWSUserPoolsSignIn": "5827de241f847c8e0f2569fc1366fbb6d732d0382320ffcae115cbabe77eaadb"
 ]
 
-var products = frameworksToChecksum.keys.map {Product.library(name: $0, targets: [$0])}
+var frameworksOnFilesystem: [String] {
+    let fileManager = FileManager.default
+    let rootURL = URL(fileURLWithPath: fileManager.currentDirectoryPath)
+    let xcfURL = rootURL.appendingPathComponent(localPath)
+    let paths = (try? fileManager.contentsOfDirectory(atPath: xcfURL.path)) ?? []
+    let frameworks = paths
+        .filter { $0.hasSuffix(".xcframework") }
+        .map { xcfURL.appendingPathComponent($0) }
+        .map { $0.deletingPathExtension().lastPathComponent }
+        .sorted()
+    return frameworks
+}
 
-func createTarget(framework: String, checksum: String) -> Target {
-    localPathEnabled ?
+var frameworksFromDictionary: [String] {
+    frameworksToChecksum.map { $0.key }.sorted()
+}
+
+let frameworks = buildMode == .localWithFilesystem ? frameworksOnFilesystem : frameworksFromDictionary
+
+func createProducts() -> [Product] {
+    let products: [Product]
+    if buildMode != .remote {
+        products = frameworks.map { Product.library(name: $0, targets: [$0]) }
+    } else {
+        products = frameworksToChecksum.keys.map { Product.library(name: $0, targets: [$0]) }
+    }
+    return products
+}
+
+func createTarget(framework: String, checksum: String = "") -> Target {
+    buildMode != .remote ?
         Target.binaryTarget(name: framework, 
                             path: "\(localPath)/\(framework).xcframework") :
         Target.binaryTarget(name: framework, 
@@ -76,9 +112,23 @@ func createTarget(framework: String, checksum: String) -> Target {
                             checksum: checksum)
 }
 
-var targets = frameworksToChecksum.map { framework, checksum in
-    createTarget(framework: framework, checksum: checksum)
+func createTargets() -> [Target] {
+    let targets: [Target]
+    if buildMode != .remote {
+        targets = frameworks.map {
+            createTarget(framework: $0)
+        }
+    } else {
+        targets = frameworksToChecksum.map { framework, checksum in
+            createTarget(framework: framework, checksum: checksum)
+        }
+    }
+    return targets
+
 }
+
+let products = createProducts()
+let targets = createTargets()
 
 let package = Package(
     name: "AWSiOSSDKV2",
