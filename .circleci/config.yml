@@ -52,14 +52,6 @@ jobs:
             release_version=$(cat Package.swift | grep -o -E '([0-9]+)\.([0-9]+)\.([0-9]+)')
             echo "export release_version=$release_version" >> $BASH_ENV
       - run:
-          name: Reset the release branch to main
-          command: |
-            git fetch origin main
-            git checkout release
-            git reset --hard main
-            git push -f https://${GITHUB_SPM_RELEASE_TOKEN}@github.com/aws-amplify/aws-sdk-ios-spm.git
-            echo "Reset complete"
-      - run:
           name: Update tag
           command: |
             echo $release_version
