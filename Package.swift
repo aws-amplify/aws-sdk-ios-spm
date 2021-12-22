@@ -4,7 +4,7 @@ import class Foundation.FileManager
 import struct Foundation.URL
 
 // Current stable version of the AWS iOS SDK
-// 
+//
 // This value will be updated by the CI/CD pipeline and should not be
 // updated manually
 let latestVersion = "2.27.0"
@@ -23,7 +23,7 @@ let buildMode = BuildMode.remote
 
 // Map between the available frameworks and the checksum
 //
-// The checksum value will be updated by the CI/CD pipeline and should 
+// The checksum value will be updated by the CI/CD pipeline and should
 // not be updated manually
 let frameworksToChecksum = [
     "AWSAPIGateway": "73e1d1ecae762fad6e952b75fa83797c94b2509cd2cc93b4d05d532fbcd61baf",
@@ -105,10 +105,10 @@ func createProducts() -> [Product] {
 
 func createTarget(framework: String, checksum: String = "") -> Target {
     buildMode != .remote ?
-        Target.binaryTarget(name: framework, 
+        Target.binaryTarget(name: framework,
                             path: "\(localPath)/\(framework).xcframework") :
-        Target.binaryTarget(name: framework, 
-                            url: "\(hostingUrl)\(framework)-\(latestVersion).zip", 
+        Target.binaryTarget(name: framework,
+                            url: "\(hostingUrl)\(framework)-\(latestVersion).zip",
                             checksum: checksum)
 }
 
@@ -138,3 +138,93 @@ let package = Package(
     products: products,
     targets: targets
 )
+
+//let dependencyGraph: [String: [Target.Dependency]] = [
+//    "AWSAPIGateway": [.target(name: "AWSCore")],
+//    "AWSAppleSignIn": [.target(name: "AWSCore"), .target(name: "AWSAuthCore")],
+//    "AWSAuthCore": [],
+//    "AWSAuthUI": [.target(name: "AWSCore"), .target(name: "AWSAuthCore")],
+//    "AWSAutoScaling": [],
+//    "AWSChimeSDKIdentity": [.target(name: "AWSCore")],
+//    "AWSChimeSDKMessaging": [.target(name: "AWSCore")],
+//    "AWSCloudWatch": [],
+//    "AWSCognitoAuth": [],
+//    "AWSCognitoIdentityProvider": [],
+//    "AWSCognitoIdentityProviderASF": [],
+//    "AWSComprehend": [],
+//    "AWSConnect": [],
+//    "AWSConnectParticipant": [],
+//    "AWSCore": [],
+//    "AWSDynamoDB": [],
+//    "AWSEC2": [],
+//    "AWSElasticLoadBalancing": [],
+//    "AWSFacebookSignIn": [],
+//    "AWSGoogleSignIn": [],
+//    "AWSIoT": [],
+//    "AWSKMS": [],
+//    "AWSKinesis": [],
+//    "AWSKinesisVideo": [],
+//    "AWSKinesisVideoArchivedMedia": [],
+//    "AWSKinesisVideoSignaling": [],
+//    "AWSLambda": [],
+//    "AWSLex": [],
+//    "AWSLocationXCF": [],
+//    "AWSLogs": [],
+//    "AWSMachineLearning": [],
+//    "AWSMobileClientXCF": [],
+//    "AWSPinpoint": [],
+//    "AWSPolly": [],
+//    "AWSRekognition": [],
+//    "AWSS3": [],
+//    "AWSSES": [],
+//    "AWSSNS": [],
+//    "AWSSQS": [],
+//    "AWSSageMakerRuntime": [],
+//    "AWSSimpleDB": [],
+//    "AWSTextract": [],
+//    "AWSTranscribe": [],
+//    "AWSTranscribeStreaming": [],
+//    "AWSTranslate": [],
+//    "AWSUserPoolsSignIn": []
+//]
+
+//var products = frameworksToChecksum
+//    .keys
+//    .map { framework -> PackageDescription.Product in
+//        if dependencyGraph[framework]!.isEmpty {
+//            return Product.library(name: framework, targets: [framework])
+//        }
+//        return Product.library(name: framework, targets: ["\(framework)Targets"])
+//    }
+
+//let package = Package(
+//    name: "AWSiOSSDKV2",
+//    platforms: [
+//        .iOS(.v9)
+//    ],
+//    products: products,
+//    targets: []
+//)
+
+//func addTarget(framework: String, checksum: String) {
+//    if let dependencies = dependencyGraph[framework], !dependencies.isEmpty {
+//        package.targets.append(
+//            .target(
+//                name: "\(framework)Targets",
+//                dependencies: dependencies,
+//                path: "\(framework)Targets"
+//            )
+//        )
+//    }
+//    package.targets.append(
+//        .binaryTarget(
+//            name: framework,
+//            url: "\(hostingUrl)\(framework)-\(latestVersion).zip",
+//            checksum: checksum
+//        )
+//    )
+//}
+//
+//frameworksToChecksum.forEach { framework, checksum in
+//    addTarget(framework: framework, checksum: checksum)
+//}
