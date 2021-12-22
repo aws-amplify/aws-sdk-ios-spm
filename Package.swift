@@ -188,6 +188,7 @@ let package = Package(
 //    "AWSUserPoolsSignIn": []
 //]
 
+
 //var products = frameworksToChecksum
 //    .keys
 //    .map { framework -> PackageDescription.Product in
