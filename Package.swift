@@ -76,7 +76,7 @@ let frameworksToChecksum = [
 
 var frameworksOnFilesystem: [String] {
     let fileManager = FileManager.default
-    let rootURL = URL(fileURLWithPath: fileManager.currentDirectoryPath)
+    let rootURL = URL(fileURLWithPath: #file).deletingLastPathComponent()
     let xcfURL = rootURL.appendingPathComponent(localPath)
     let paths = (try? fileManager.contentsOfDirectory(atPath: xcfURL.path)) ?? []
     let frameworks = paths
