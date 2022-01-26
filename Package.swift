@@ -4,7 +4,7 @@ import class Foundation.FileManager
 import struct Foundation.URL
 
 // Current stable version of the AWS iOS SDK
-// 
+//
 // This value will be updated by the CI/CD pipeline and should not be
 // updated manually
 let latestVersion = "2.27.0"
@@ -23,7 +23,7 @@ let buildMode = BuildMode.remote
 
 // Map between the available frameworks and the checksum
 //
-// The checksum value will be updated by the CI/CD pipeline and should 
+// The checksum value will be updated by the CI/CD pipeline and should
 // not be updated manually
 let frameworksToChecksum = [
     "AWSAPIGateway": "73e1d1ecae762fad6e952b75fa83797c94b2509cd2cc93b4d05d532fbcd61baf",
@@ -74,6 +74,65 @@ let frameworksToChecksum = [
     "AWSUserPoolsSignIn": "e3ec5ec0c7a506c7305541099b5417deeeab0d9d3d09da6abf4ce4bfab2b3c4f"
 ]
 
+
+extension Target.Dependency {
+    // Framework dependencies present in the SDK
+    static let awsCore: Self = .target(name: "AWSCore")
+    static let awsAuthCore: Self = .target(name: "AWSAuthCore")
+    static let awsCognitoIdentityProviderASF: Self = .target(name: "AWSCognitoIdentityProviderASF")
+    static let awsCognitoIdentityProvider: Self = .target(name: "AWSCognitoIdentityProvider")
+}
+
+let depdenencyMap: [String: [Target.Dependency]] = [
+    "AWSAPIGateway": [.awsCore],
+    "AWSAppleSignIn": [.awsCore, .awsAuthCore],
+    "AWSAuthCore": [.awsCore],
+    "AWSAuthUI": [.awsCore, .awsAuthCore],
+    "AWSAutoScaling": [.awsCore],
+    "AWSChimeSDKIdentity": [.awsCore],
+    "AWSChimeSDKMessaging": [.awsCore],
+    "AWSCloudWatch": [.awsCore],
+    "AWSCognitoAuth": [.awsCore, .awsCognitoIdentityProviderASF],
+    "AWSCognitoIdentityProvider": [.awsCore, .awsCognitoIdentityProviderASF],
+    "AWSCognitoIdentityProviderASF": [.awsCore],
+    "AWSComprehend": [.awsCore],
+    "AWSConnect": [.awsCore],
+    "AWSConnectParticipant": [.awsCore],
+    "AWSCore": [],
+    "AWSDynamoDB": [.awsCore],
+    "AWSEC2": [.awsCore],
+    "AWSElasticLoadBalancing": [.awsCore],
+    "AWSFacebookSignIn": [.awsCore, .awsAuthCore],
+    "AWSGoogleSignIn": [.awsCore, .awsAuthCore],
+    "AWSIoT": [.awsCore],
+    "AWSKMS": [.awsCore],
+    "AWSKinesis": [.awsCore],
+    "AWSKinesisVideo": [.awsCore],
+    "AWSKinesisVideoArchivedMedia": [.awsCore],
+    "AWSKinesisVideoSignaling": [.awsCore],
+    "AWSLambda": [.awsCore],
+    "AWSLex": [.awsCore],
+    "AWSLocationXCF": [.awsCore],
+    "AWSLogs": [.awsCore],
+    "AWSMachineLearning": [.awsCore],
+    "AWSMobileClientXCF": [.awsAuthCore, .awsCognitoIdentityProvider],
+    "AWSPinpoint": [.awsCore],
+    "AWSPolly": [.awsCore],
+    "AWSRekognition": [.awsCore],
+    "AWSS3": [.awsCore],
+    "AWSSES": [.awsCore],
+    "AWSSNS": [.awsCore],
+    "AWSSQS": [.awsCore],
+    "AWSSageMakerRuntime": [.awsCore],
+    "AWSSimpleDB": [.awsCore],
+    "AWSTextract": [.awsCore],
+    "AWSTranscribe": [.awsCore],
+    "AWSTranscribeStreaming": [.awsCore],
+    "AWSTranslate": [.awsCore],
+    "AWSUserPoolsSignIn": [.awsCognitoIdentityProvider, .awsAuthCore, .awsCore]
+]
+
+
 var frameworksOnFilesystem: [String] {
     let fileManager = FileManager.default
     let rootURL = URL(fileURLWithPath: #file).deletingLastPathComponent()
@@ -98,17 +157,24 @@ func createProducts() -> [Product] {
     if buildMode != .remote {
         products = frameworks.map { Product.library(name: $0, targets: [$0]) }
     } else {
-        products = frameworksToChecksum.keys.map { Product.library(name: $0, targets: [$0]) }
+        products = frameworks.map { framework -> Product in
+            if depdenencyMap[framework]!.isEmpty {
+                return Product.library(name: framework, targets: [framework])
+            }
+            // If framework has dependencies, create a `<framework>-Target`
+            // library that is used to link framework target with its dependencies
+            return Product.library(name: framework, targets: ["\(framework)-Target"])
+        }
     }
     return products
 }
 
 func createTarget(framework: String, checksum: String = "") -> Target {
     buildMode != .remote ?
-        Target.binaryTarget(name: framework, 
+        Target.binaryTarget(name: framework,
                             path: "\(localPath)/\(framework).xcframework") :
-        Target.binaryTarget(name: framework, 
-                            url: "\(hostingUrl)\(framework)-\(latestVersion).zip", 
+        Target.binaryTarget(name: framework,
+                            url: "\(hostingUrl)\(framework)-\(latestVersion).zip",
                             checksum: checksum)
 }
 
@@ -119,12 +185,25 @@ func createTargets() -> [Target] {
             createTarget(framework: $0)
         }
     } else {
-        targets = frameworksToChecksum.map { framework, checksum in
-            createTarget(framework: framework, checksum: checksum)
+        targets = frameworksToChecksum.flatMap { framework, checksum -> [Target] in
+            var targets = [createTarget(framework: framework, checksum: checksum)]
+
+            // If the framework has dependencies, create an additional target that links the
+            // framework and its depedencies using the previously created product.
+            if var dependencies = depdenencyMap[framework], !dependencies.isEmpty {
+                dependencies.append(.target(name: framework))
+                targets.append(
+                    .target(
+                        name: "\(framework)-Target",
+                        dependencies: dependencies,
+                        path: "DependantTargets/\(framework)-Target"
+                    )
+                )
+            }
+            return targets
         }
     }
     return targets
-
 }
 
 let products = createProducts()
