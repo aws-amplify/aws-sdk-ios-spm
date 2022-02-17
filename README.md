@@ -35,4 +35,6 @@ In order to do local development the XCF directory must be populated with the XC
 
 1. Clone aws-sdk-ios to the same directory as this repo
 2. Run `local.sh` to prepare the XCF files (this can take a while)
-3. Update `Package.swift` to set `localPathEnabled` to `true`
+3. Update `Package.swift` to set `buildMode` to `localWithDictionary` or `localWithFilesystem`
+
+The `localWithDictionary` mode will use the list of packages in `Package.swift` while `localWithFilesystem` will read the filesystem for which packages are built and are found in the XCF folder. This option is useful when a subset of the packages are built which takes less time.
