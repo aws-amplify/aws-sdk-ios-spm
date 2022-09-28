@@ -22,7 +22,7 @@ popd
 
 # Copy XCF output into SPM repo
 mkdir -p XCF
-cp -rp "${SOURCE_REPO_DIR}/${XCF_OUTPUT_DIR}" .
+cp -Rp "${SOURCE_REPO_DIR}/${XCF_OUTPUT_DIR}" .
 
 # Manually enable local repo when it is being used locally
 echo "Update ${XCF_OUTPUT_DIR}/Package.swift to use local XCF files"
