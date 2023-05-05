@@ -52,6 +52,7 @@ let frameworksToChecksum = [
     "AWSKinesisVideo": "645397f337f089e1dd58f4748249c37874573c14e44e4b265ded165a8d78e243",
     "AWSKinesisVideoArchivedMedia": "5686b2f115c360498d66f195adc57664589a9edfa48310753df32d4a9ae646bb",
     "AWSKinesisVideoSignaling": "dd3968475813da51d16742811e28ebd4138987a6a5db73d7e76122e0469dd65c",
+    "AWSKinesisVideoWebRTCStorage": "SHA_CHECKSUM",
     "AWSLambda": "61cfe81dba3ebf764c3417c543223166cd45315f1469e4e392d4e5ccc21702fa",
     "AWSLex": "264fac6676927b525b03d8444ba85d6ad26e8e7b6475ab61eb64ae848235c977",
     "AWSLocationXCF": "a130c602a7ccb62a55ccbc27eb3f151533e5b9d3a2e9dc037b2b986569311457",
