@@ -110,6 +110,7 @@ let depdenencyMap: [String: [Target.Dependency]] = [
     "AWSKinesisVideo": [.awsCore],
     "AWSKinesisVideoArchivedMedia": [.awsCore],
     "AWSKinesisVideoSignaling": [.awsCore],
+    "AWSKinesisVideoWebRTCStorage": [.awsCore],
     "AWSLambda": [.awsCore],
     "AWSLex": [.awsCore],
     "AWSLocationXCF": [.awsCore],
