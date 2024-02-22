@@ -19,7 +19,7 @@ enum BuildMode {
 }
 
 let localPath = "XCF"
-let buildMode = BuildMode.remote
+let buildMode = BuildMode.localWithFilesystem
 
 // Map between the available frameworks and the checksum
 //
