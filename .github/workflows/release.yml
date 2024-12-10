@@ -17,8 +17,10 @@ jobs:
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
 
       - name: Validate Release Commit
+        env:
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: |
-          if [[ "${{ github.event.head_commit.message }}" != *"release-spm"* ]]
+          if [[ "$COMMIT_MESSAGE" != *"release-spm"* ]]
           then
             echo "Commit message does not contain 'release-spm', skipping release."
             exit 1
