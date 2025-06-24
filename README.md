@@ -4,12 +4,12 @@ This repository enables Swift Package Manager support for the AWS Mobile SDK for
 
 ## Setup
 
-To get started with the AWS SDK for iOS, check out the [Developer Guide for iOS](https://aws-amplify.github.io/docs/ios/start). You can set up the SDK and start building a new project, or you integrate the SDK in an existing project.
+To get started with the AWS SDK for iOS, check out the [Developer Guide for iOS](https://github.com/aws-amplify/aws-sdk-ios/blob/main/README.md#include-the-sdk-for-ios-in-an-existing-application). You can set up the SDK and start building a new project, or you integrate the SDK in an existing project.
 
 To use the AWS SDK for iOS, you will need the following installed on your development machine:
 
 * Xcode 11.0 or later
-* iOS 9 or later
+* iOS 12 or later
 
 ## Adding AWS SDK iOS via Swift Package Manager
 
