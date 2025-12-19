@@ -1,3 +1,15 @@
+# ⚠️ The AWS SDK for iOS entered Maintenance Phase as of August 1, 2025.
+
+During this maintenance period:
+* Critical bug fixes and security patches will continue to be provided
+* No new features or enhancements will be added
+* Existing functionality will remain supported
+
+We recommend that you start using [AWS Amplify for Swift](https://github.com/aws-amplify/amplify-swift), our modern feature-rich library designed specifically for building cloud-connected apps powered by AWS. You can refer to the [AWS SDK for iOS migration guide](https://github.com/aws-amplify/amplify-swift/blob/main/MobileSDK_To_AmplifySwift_Guidance.md) to help you transition to AWS Amplify for Swift.
+This version is scheduled to reach End of Support on **August 1, 2026**. After this date, no further updates of any kind will be provided. See [maintenance policy](https://docs.amplify.aws/reference/maintenance-policy) for more information about the Amplify Client Library lifecycle.
+
+To use the AWS SDK for iOS directly you can refer to [the AWS SDK Documentation here](https://docs.amplify.aws/sdk/q/platform/ios/) and follow the setup instructions below. You can also look at sample apps in [the AWS SDK for iOS Samples repo](https://github.com/awslabs/aws-sdk-ios-samples).
+
 # Swift Package Manager support for AWS SDK for iOS
 
 This repository enables Swift Package Manager support for the AWS Mobile SDK for iOS by vending a Manifest file (`Package.swift`) that links to binary frameworks for the SDKs.
